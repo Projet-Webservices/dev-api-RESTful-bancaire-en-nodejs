@@ -1,0 +1,151 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Bank Account API",
+      "description": "API for managing bank accounts.",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/accounts/{accountId}/balance": {
+        "get": {
+          "summary": "Get account balance",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "accountId": {
+                        "type": "string"
+                      },
+                      "balance": {
+                        "type": "number",
+                        "format": "float"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        }
+      },
+      "/accounts/{accountId}/transactions": {
+        "get": {
+          "summary": "Get transaction history",
+          "parameters": [
+            {
+              "name": "accountId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Page number"
+            },
+            {
+              "name": "size",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Page size"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "accountId": {
+                        "type": "string"
+                      },
+                      "transactions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "page": {
+                        "type": "integer"
+                      },
+                      "size": {
+                        "type": "integer"
+                      },
+                      "totalPages": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        }
+      },
+      "/accounts/{accountId}/transfer": {
+        "post": {
+          "summary": "Transfer funds",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "destinationAccountId": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "format": "float"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "400": {
+              "description": "Bad request, e.g., insufficient funds"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        }
+      }
+    }
+  }
+  
